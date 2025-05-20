@@ -53,8 +53,8 @@ namespace BibliosphereLite.Pages
                     IsRented = false
                 };
                 libraryDatabase.AddBook(book);
-                booksPage.RefreshBooks();
-                NavigationService.Navigate(new BooksPage());
+                booksPage.RefreshBooks(); // Обновляем текущую страницу
+                NavigationService.Navigate(booksPage); // Возвращаемся на текущую страницу
             }
             catch
             {
@@ -64,7 +64,7 @@ namespace BibliosphereLite.Pages
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new BooksPage());
+            NavigationService.Navigate(booksPage); // Возвращаемся на текущую страницу
         }
     }
 }
