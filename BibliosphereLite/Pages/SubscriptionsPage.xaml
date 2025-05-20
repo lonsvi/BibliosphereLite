@@ -1,0 +1,51 @@
+﻿<Page x:Class="BibliosphereLite.Pages.SubscriptionsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="SubscriptionsPage"
+      Background="#F5F7FA">
+    <Page.Resources>
+        <!-- Шаблон для плитки абонемента -->
+        <DataTemplate x:Key="SubscriptionTileTemplate">
+            <Border Width="250" Height="220" Margin="10" Background="White" CornerRadius="5" BorderBrush="#E0E0E0" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="{Binding ReaderName}" FontSize="16" FontWeight="Bold" Foreground="#333333" TextWrapping="Wrap" Margin="5"/>
+                    <TextBlock Text="{Binding BookTitle}" FontSize="14" Foreground="#666666" TextWrapping="Wrap" Margin="5"/>
+                    <TextBlock Text="{Binding IssueDate, StringFormat='Выдача: {0:yyyy-MM-dd}'}" FontSize="12" Foreground="#666666" Margin="5"/>
+                    <TextBlock Text="{Binding ReturnDate, StringFormat='Возврат: {0:yyyy-MM-dd}'}" FontSize="12" Foreground="#666666" Margin="5"/>
+                    <TextBlock Text="{Binding IsActive, Converter={StaticResource SubscriptionStatusConverter}}" FontSize="12" Foreground="{Binding IsActive, Converter={StaticResource BooleanToColorConverter}}" Margin="5"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button Content="Продлить" Click="ExtendButton_Click" Margin="5" Height="30" Width="80" Tag="{Binding}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                        <Button Content="Вернуть" Click="ReturnButton_Click" Margin="5" Height="30" Width="80" Tag="{Binding}" Visibility="{Binding IsActive, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </DataTemplate>
+    </Page.Resources>
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Абонементы" FontSize="24" FontWeight="Bold" Foreground="#333333" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+            <Button x:Name="BooksNavButton" Content="Книги" Style="{StaticResource ModernButtonStyle}" Click="BooksNavButton_Click" Margin="0,0,10,0" Height="26" Width="108"/>
+            <Button x:Name="ReadersNavButton" Content="Читатели" Style="{StaticResource ModernButtonStyle}" Click="ReadersNavButton_Click" Margin="0,0,10,0" Height="26" Width="112"/>
+            <Button x:Name="SubscriptionsNavButton" Content="Абонементы" Style="{StaticResource ModernButtonStyle}" Click="SubscriptionsNavButton_Click" Margin="0,0,10,0" Height="27" Width="119"/>
+            <Button x:Name="LogoutButton" Content="Выход" Style="{StaticResource ModernButtonStyle}" Click="LogoutButton_Click" Margin="10,0,0,0" Height="26" Width="108"/>
+            <Button x:Name="RentButton" Content="Выдать книгу" Style="{StaticResource ModernButtonStyle}" Click="RentButton_Click" Margin="10,0,0,0" Height="31" Width="119"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2">
+            <ItemsControl x:Name="SubscriptionsItemsControl" ItemTemplate="{StaticResource SubscriptionTileTemplate}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>
